@@ -1,5 +1,6 @@
 package mizangroup.library.controller;
 
+import mizangroup.library.model.BorrowRequest;
 import mizangroup.library.model.BorrowedBook;
 import mizangroup.library.model.Borrower;
 import mizangroup.library.service.BorrowerService;
@@ -24,12 +25,14 @@ public class BorrowerController {
         return ResponseEntity.ok(savedBorrower);
     }
 
-    @PostMapping("/{borrowerId}/borrow/{bookDetailId}")
-    public ResponseEntity<BorrowedBook> borrowBook(
-            @PathVariable Long borrowerId,
-            @PathVariable Long bookDetailId) {
-        return ResponseEntity.ok(borrowerService.borrowBook(borrowerId, bookDetailId));
+    //test for frontend compatible
+    @PostMapping("/borrow")
+    public ResponseEntity<BorrowedBook> borrowBook(@RequestBody BorrowRequest request) {
+        return ResponseEntity.ok(
+            borrowerService.borrowBook(request.getBorrowerId(), request.getBookDetailId())
+        );
     }
+
 
     @PostMapping("/{borrowerId}/return/{bookDetailId}")
     public ResponseEntity<BorrowedBook> returnBook(
